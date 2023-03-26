@@ -1,0 +1,16 @@
+2023-03-26 17:32:27.859  INFO 16404 --- [main] o.t.s.StoreServiceApplication            : Starting StoreServiceApplication using Java 11.0.15 on Smart with PID 16404 (C:\Users\ganes\Intelliji-workspace\store-service\target\classes started by ganes in C:\Users\ganes\Intelliji-workspace\store-service)
+2023-03-26 17:32:27.870  INFO 16404 --- [main] o.t.s.StoreServiceApplication            : No active profile set, falling back to 1 default profile: "default"
+2023-03-26 17:32:28.276  INFO 16404 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-03-26 17:32:28.321  INFO 16404 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34 ms. Found 2 JPA repository interfaces.
+2023-03-26 17:32:28.826  INFO 16404 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 9027 (http)
+2023-03-26 17:32:28.842  INFO 16404 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2023-03-26 17:32:28.842  INFO 16404 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.71]
+2023-03-26 17:32:28.920  INFO 16404 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2023-03-26 17:32:28.920  INFO 16404 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1024 ms
+2023-03-26 17:32:29.016  INFO 16404 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2023-03-26 17:32:29.276  INFO 16404 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2023-03-26 17:32:29.301  INFO 16404 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-03-26 17:32:29.336  INFO 16404 --- [main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.6.15.Final
+2023-03-26 17:32:29.464  INFO 16404 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-03-26 17:32:29.571  INFO 16404 --- [main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2023-03-26 17:32:30.030  INFO 16404 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: 
