@@ -45,7 +45,7 @@ public class StoreServiceImpln implements StoreService {
 
         Pageable page = null;
         int pageNo = dto.getPageNo() != null ? dto.getPageNo() : 0;
-        int pageSize = dto.getPageSize() != null ? dto.getPageSize() : 10;
+        int pageSize = dto.getPageSize() != null ? dto.getPageSize() : 100;
         String sortBy = dto.getSortBy()!=null? dto.getSortBy():"";
         String sortType = dto.getSortType()!=null? dto.getSortType():"";
         if(sortBy.isEmpty()) {
