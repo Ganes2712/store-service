@@ -16,11 +16,11 @@ public class ControllerExceptionHandler {
     private static Logger log = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ResponseDto serviceException(Exception ex, WebRequest request)
     {
         log.error("Exception#serviceException#"+ ExceptionUtils.getStackTrace(ex));
-        ResponseDto dto = new ResponseDto(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage());
+        ResponseDto dto = new ResponseDto(false, HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return dto;
     }
 }

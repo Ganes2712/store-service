@@ -4,10 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.ta.store.aspect.StoreServiceException;
 import org.ta.store.dto.*;
 import org.ta.store.service.StoreService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("store")
@@ -66,7 +69,7 @@ public class StoreController {
 
 
     @PostMapping("/update")
-    public ResponseDto updateProduct(@RequestBody StoreDto dto) throws StoreServiceException {
+    public ResponseDto updateProduct(@Valid @RequestBody StoreDto dto) throws StoreServiceException {
         log.debug("updateProduct#"+dto);
         if(dto!=null) {
             return service.updateProduct(dto);
