@@ -22,6 +22,7 @@ import org.ta.store.util.SearchCriteria;
 import org.ta.store.util.SearchOperation;
 
 import javax.sql.DataSource;
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
@@ -30,6 +31,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Component
@@ -192,43 +194,43 @@ public class StoreDao {
      * @return ResponseDto
      * @throws StoreServiceException
      */
-    public ResponseDto uploadProduct(List<StoreDto> sl) throws StoreServiceException {
+    public ResponseDto uploadProduct(List<StoreDto> sl) throws Exception {
         ResponseDto dto = new ResponseDto();
         // this needs to be change in JDBC prepared stmt
         /*for (StoreDto s:sl) {
             Store e = covertStoreDtoToEntity(s);
             repo.save(e);
         }*/
+        CopyOnWriteArrayList<StoreDto> cw = new CopyOnWriteArrayList(sl);
         try(Connection con = datasource.getConnection();
             PreparedStatement ps = con.prepareStatement(Query);)
         {
             int i=0;
-            for (StoreDto s:sl)
-            {
-                log.info("batch#"+s);
-                //sid,country_code,sku,prod_name,price,created_by,createdDate
-                ps.setLong(1,s.getSid());
-                ps.setString(2,s.getCountryCode());
-                ps.setString(3,s.getSku());
-                ps.setString(4,s.getProdName());
-                ps.setLong(5,s.getPrice());
-                ps.setLong(6,1001l);
-                ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+                for (StoreDto s:cw)
+                {
+                    log.info("batch#"+s);
+                    //sid,country_code,sku,prod_name,price,created_by,createdDate
+                    ps.setLong(1,s.getSid());
+                    ps.setString(2,s.getCountryCode());
+                    ps.setString(3,s.getSku());
+                    ps.setString(4,s.getProdName());
+                    ps.setLong(5,s.getPrice());
+                    ps.setLong(6,1001l);
+                    ps.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
 
-                ps.addBatch();
+                    ps.addBatch();
 
-                if(i==10){
-                    i=0;
-                    int[] updateArr = ps.executeBatch();
+                    if(i==10)
+                    {
+                        i=0;
+                        batchExecute(ps,cw);
+                    }
                 }
                 i++;
-            }
-
             if(i!=0) {
                 ps.executeBatch();
             }
-
-        }catch (Exception e)
+        }catch(Exception e)
         {
             log.error("Exception#batch update#"+ExceptionUtils.getStackTrace(e));
             dto.setStatus(false);
@@ -241,5 +243,22 @@ public class StoreDao {
           dto.setCode(HttpStatus.OK.value());
 
         return dto;
+    }
+
+    private void batchExecute(PreparedStatement ps ,CopyOnWriteArrayList<StoreDto> cw) throws Exception {
+        try {
+            int[] updateArr = ps.executeBatch();
+        }
+        catch(BatchUpdateException bue)
+        {
+            int[] updateCount = bue.getUpdateCounts();
+            for (int j : updateCount)
+            {
+                if  (j == PreparedStatement.EXECUTE_FAILED) {
+                    log.debug("Error on Batch " + cw.get(j) +": Execution failed");
+                }
+            }
+            throw new Exception(bue);
+        }
     }
 }
